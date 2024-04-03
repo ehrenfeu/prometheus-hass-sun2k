@@ -45,7 +45,7 @@ def map_unit(unit):
 def fetch_entity_state(name):
     url = f"{API_URL}/states/{ENTITY_PFX}_{name}"
     # print(f"Requesting [{url}]...")
-    response = get(url, headers=HEADERS)
+    response = get(url, headers=HEADERS, timeout=10)
     state = json.loads(response.text)
     return state
 
@@ -71,20 +71,28 @@ def run_loop():
 
         print("Processing counters...")
         for name in COUNTER_NAMES:
-            state = fetch_entity_state(name)
+            value = 0
+            try:
+                state = fetch_entity_state(name)
+                value = state["state"]
+                print(f"{name} -> {value}")
+            except:
+                print(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in counters:
                 counters[name] = new_metric(state, Counter)
-            value = state["state"]
-            print(f"{name} -> {value}")
             counters[name]._value.set(value)
     
         print("Processing gauges...")
         for name in GAUGE_NAMES:
-            state = fetch_entity_state(name)
+            value = 0
+            try:
+                state = fetch_entity_state(name)
+                value = state["state"]
+                print(f"{name} -> {value}")
+            except:
+                print(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in gauges:
                 gauges[name] = new_metric(state, Gauge)
-            value = state["state"]
-            print(f"{name} -> {value}")
             gauges[name].set(value)
 
         print(f"Done, sleeping for {SCRAPE_INTERVAL}s.")
