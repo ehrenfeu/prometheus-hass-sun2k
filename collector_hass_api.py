@@ -97,3 +97,8 @@ def run_loop():
 
         print(f"Done, sleeping for {SCRAPE_INTERVAL}s.")
         sleep(SCRAPE_INTERVAL)
+
+
+if __name__ == "__main__":
+    prepare_export()
+    run_loop()
