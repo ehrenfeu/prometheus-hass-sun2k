@@ -1,31 +1,29 @@
-from cred import TOKEN, API_URL
+listen:
+  addr: "192.168.3.4"
+  port: 9177
 
-SCRAPE_INTERVAL = 15
-METRIC_PFX = "sun2k"
-ENTITY_PFX = "sensor.inverter"
-PORT = 9177
-ADDR = "192.168.4.244"
+homeassistant:
+  api_url: http://localhost:8124/api
+  token: MiOiIyYzdhNTYwN2Y5Y2U0MYxfQ.lLxnIIUzI1NiIsInR
 
-HEADERS = {
-    "Authorization": f"Bearer {TOKEN}",
-    "content-type": "application/json",
-}
+scrape_interval: 15
+metric_pfx: sun2k
+entity_pfx: sensor.inverter
 
-COUNTER_NAMES = [
-    "total_yield",  # all-time produced energy
-    "daily_yield",
-]
+counters:
+- total_yield
+- daily_yield
 
-GAUGE_NAMES = [
-    "input_power",
-    "day_active_power_peak",
-    "active_power",
-    "reactive_power",
-    "power_factor",
-    "efficiency",
-    "internal_temperature",
-]
+gauges:
+- input_power
+- day_active_power_peak
+- active_power
+- reactive_power
+- power_factor
+- efficiency
+- internal_temperature
 
+### sensors provided by HomeAssistant:
 # input_power
 # a_b_line_voltage
 # b_c_line_voltage
