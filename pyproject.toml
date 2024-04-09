@@ -1,0 +1,44 @@
+[tool.poetry]
+authors = ["Niko Ehrenfeuchter <mail@he1ix.org>"]
+description = "Prometheus exporter for HomeAssistant data on Huawei SUN2000 inverters"
+include = [
+  "resources/config-example.yaml",
+  "resources/systemd/prometheus-hass-sun2k.service",
+]
+license = "MIT"
+name = "prometheus-hass-sun2k"
+readme = "README.md"
+version = "0.0.0"
+
+homepage = "https://pypi.org/project/prometheus-hass-sun2k/"
+keywords = ["prometheus", "metrics", "homeassistant", "sun2k", "huawei", "solar", "solar-energy"]
+repository = "https://github.com/ehrenfeu/prometheus-hass-sun2k"
+
+[tool.poetry.urls]
+"Changelog" = "https://github.com/ehrenfeu/prometheus-hass-sun2k/blob/main/CHANGELOG.md"
+
+[tool.poetry.dependencies]
+prometheus-client = "^0.20.0"
+python = "3.11"
+requests = "^2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.3.0"
+pylint = "^3.1.0"
+
+[tool.poetry.scripts]
+prometheus-hass-sun2k = "prometheus_hass_sun2k.cli:run_exporter"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+style = "semver"
+vcs = "git"
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [
+  {path = "src"},
+]
+
+[build-system]
+build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
