@@ -1,12 +1,12 @@
-listen:
+listen: # IP and port for the exporter to listen on
   addr: "192.168.3.4"
   port: 9177
 
-homeassistant:
+homeassistant: # where to find HomeAssistant and which token to use
   api_url: http://localhost:8124/api
   token: MiOiIyYzdhNTYwN2Y5Y2U0MYxfQ.lLxnIIUzI1NiIsInR
 
-scrape_interval: 15
+scrape_interval: 15 # in seconds
 metric_pfx: sun2k
 entity_pfx: sensor.inverter
 
