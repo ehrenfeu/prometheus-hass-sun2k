@@ -51,8 +51,14 @@ The exporter running in foreground can be terminated as usual via `Ctrl+C`.
 # create a system user for running the service:
 adduser --system --group has2k-exporter
 
+# copy the configuration example, adjust permissions and edit it:
+cp -v /opt/prometheus-hass-sun2k/lib/python*/site-packages/prometheus_hass_sun2k/resources/config-example.yaml /opt/prometheus-hass-sun2k/config.yaml
+chgrp has2k-exporter /opt/prometheus-hass-sun2k/config.yaml
+chmod 640 /opt/prometheus-hass-sun2k/config.yaml
+editor /opt/prometheus-hass-sun2k/config.yaml
+
 # install, register and adjust the systemd unit file:
-cp -v /opt/prometheus-hass-sun2k/lib/python*/site-packages/resources/systemd/prometheus-hass-sun2k.service  /etc/systemd/system/
+cp -v /opt/prometheus-hass-sun2k/lib/python*/site-packages/prometheus_hass_sun2k/resources/systemd/prometheus-hass-sun2k.service  /etc/systemd/system/
 systemctl daemon-reload
 systemctl edit prometheus-hass-sun2k.service
 ```
@@ -69,6 +75,18 @@ on the configured port:
 ```bash
 systemctl enable --now prometheus-hass-sun2k.service
 journalctl --follow --unit prometheus-hass-sun2k
+```
+
+## 🆙 Upgrading 🆙
+
+Assuming the exporter has been installed as described above, an upgrade to a
+newer version could be done like this:
+
+```bash
+/opt/prometheus-hass-sun2k/bin/pip install --upgrade prometheus-hass-sun2k
+# check the changelog for potentially new configuration settings, integrate them
+# if necessary and finally restart the service:
+systemctl restart prometheus-hass-sun2k.service
 ```
 
 [1]: https://prometheus.io/
