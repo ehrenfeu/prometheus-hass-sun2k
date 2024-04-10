@@ -117,5 +117,5 @@ def run_exporter(verbose, config):
                 gauges[name] = new_metric(state, Gauge, config)
             gauges[name].set(value)
 
-        log.success(f"Done, sleeping for {config.scrape_interval}s.")
+        log.success(f"Updated metrics, sleeping for {config.scrape_interval}s.")
         sleep(config.scrape_interval)
