@@ -36,7 +36,6 @@ def configure_logging(verbose: int):
 
 
 def prepare_export(config):
-    log.debug(config)
     start_http_server(port=config.listen.port, addr=config.listen.addr)
     info = Info(
         name=f"{config.metric_pfx}_collector",
@@ -90,33 +89,33 @@ def run_exporter(verbose, config):
     gauges = {}
 
     while True:
-        print("Updating metrics...")
+        log.info("Updating metrics...")
 
-        print("Processing counters...")
+        log.debug("Processing counters...")
         for name in config.counters:
             value = 0
             try:
                 state = fetch_entity_state(name, config)
                 value = state["state"]
-                print(f"{name} -> {value}")
+                log.info(f"{name} -> {value}")
             except:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in counters:
                 counters[name] = new_metric(state, Counter, config)
             counters[name]._value.set(value)
 
-        print("Processing gauges...")
+        log.debug("Processing gauges...")
         for name in config.gauges:
             value = 0
             try:
                 state = fetch_entity_state(name, config)
                 value = state["state"]
-                print(f"{name} -> {value}")
+                log.info(f"{name} -> {value}")
             except:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in gauges:
                 gauges[name] = new_metric(state, Gauge, config)
             gauges[name].set(value)
 
-        print(f"Done, sleeping for {config.scrape_interval}s.")
+        log.success(f"Done, sleeping for {config.scrape_interval}s.")
         sleep(config.scrape_interval)
