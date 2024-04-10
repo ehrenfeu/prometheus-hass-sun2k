@@ -31,4 +31,6 @@ def load_config_file(filename):
             "efficiency",
             "internal_temperature",
         ]
+    if "verbosity" not in config.keys():
+        config.verbosity = 0
     return config
