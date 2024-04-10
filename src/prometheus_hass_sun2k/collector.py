@@ -17,6 +17,7 @@ from settings import (
     COUNTER_NAMES,
 )
 
+
 def prepare_export():
     start_http_server(port=PORT, addr=ADDR)
     info = Info(
@@ -81,7 +82,7 @@ def run_loop():
             if name not in counters:
                 counters[name] = new_metric(state, Counter)
             counters[name]._value.set(value)
-    
+
         print("Processing gauges...")
         for name in GAUGE_NAMES:
             value = 0
