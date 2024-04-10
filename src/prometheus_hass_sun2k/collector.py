@@ -1,29 +1,9 @@
+"""Metrics collection classes."""
+
 import json
-from time import sleep
 
+from loguru import logger as log
 from requests import get
-from prometheus_client import start_http_server, Info, Gauge, Counter
-
-from settings import (
-    SCRAPE_INTERVAL,
-    METRIC_PFX,
-    ENTITY_PFX,
-    PORT,
-    ADDR,
-    TOKEN,
-    API_URL,
-    HEADERS,
-    GAUGE_NAMES,
-    COUNTER_NAMES,
-)
-
-
-def prepare_export():
-    start_http_server(port=PORT, addr=ADDR)
-    info = Info(
-        name=f"{METRIC_PFX}_collector",
-        documentation="SUN2000 inverter series metrics collector (via HomeAssistant)",
-    )
 
 
 def map_unit(unit):
@@ -43,16 +23,20 @@ def map_unit(unit):
     return unit
 
 
-def fetch_entity_state(name):
-    url = f"{API_URL}/states/{ENTITY_PFX}_{name}"
-    # print(f"Requesting [{url}]...")
-    response = get(url, headers=HEADERS, timeout=10)
+def fetch_entity_state(name, config):
+    url = f"{config.homeassistant.api_url}/states/{config.entity_pfx}_{name}"
+    headers = {
+        "Authorization": f"Bearer {config.homeassistant.token}",
+        "content-type": "application/json",
+    }
+    log.trace(f"Requesting [{url}]...")
+    response = get(url, headers=headers, timeout=10)
     state = json.loads(response.text)
     return state
 
 
-def new_metric(state, metric_type):
-    cut = len(ENTITY_PFX) + 1
+def new_metric(state, metric_type, config):
+    cut = len(config.entity_pfx) + 1
     name = state["entity_id"][cut:]
     attributes = state["attributes"]
     try:
@@ -60,46 +44,5 @@ def new_metric(state, metric_type):
     except KeyError:
         unit = ""
     docs = attributes["friendly_name"]
-    return metric_type(name=f"{METRIC_PFX}_{name}", documentation=docs, unit=unit)
-
-
-def run_loop():
-    counters = {}
-    gauges = {}
-
-    while True:
-        print("Updating metrics...")
-
-        print("Processing counters...")
-        for name in COUNTER_NAMES:
-            value = 0
-            try:
-                state = fetch_entity_state(name)
-                value = state["state"]
-                print(f"{name} -> {value}")
-            except:
-                print(f"ERROR: fetching [{name}] failed, setting to -> {value}")
-            if name not in counters:
-                counters[name] = new_metric(state, Counter)
-            counters[name]._value.set(value)
-
-        print("Processing gauges...")
-        for name in GAUGE_NAMES:
-            value = 0
-            try:
-                state = fetch_entity_state(name)
-                value = state["state"]
-                print(f"{name} -> {value}")
-            except:
-                print(f"ERROR: fetching [{name}] failed, setting to -> {value}")
-            if name not in gauges:
-                gauges[name] = new_metric(state, Gauge)
-            gauges[name].set(value)
-
-        print(f"Done, sleeping for {SCRAPE_INTERVAL}s.")
-        sleep(SCRAPE_INTERVAL)
-
-
-if __name__ == "__main__":
-    prepare_export()
-    run_loop()
+    prefix = config.metric_pfx
+    return metric_type(name=f"{prefix}_{name}", documentation=docs, unit=unit)
