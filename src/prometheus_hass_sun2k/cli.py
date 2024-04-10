@@ -36,6 +36,7 @@ def configure_logging(verbose: int):
 
 
 def prepare_export(config):
+    log.debug(config)
     start_http_server(port=config.homeassistant.port, addr=config.homeassistant.addr)
     info = Info(
         name=f"{config.metric_pfx}_collector",
