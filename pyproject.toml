@@ -18,8 +18,10 @@ repository = "https://github.com/ehrenfeu/prometheus-hass-sun2k"
 "Changelog" = "https://github.com/ehrenfeu/prometheus-hass-sun2k/blob/main/CHANGELOG.md"
 
 [tool.poetry.dependencies]
+click = "^8.1.7"
 prometheus-client = "^0.20.0"
-python = "3.11"
+python = "^3.8"
+python-box = "^7.1.1"
 requests = "^2.31.0"
 
 [tool.poetry.group.dev.dependencies]
@@ -31,8 +33,6 @@ prometheus-hass-sun2k = "prometheus_hass_sun2k.cli:run_exporter"
 
 [tool.poetry-dynamic-versioning]
 enable = true
-style = "semver"
-vcs = "git"
 
 [tool.poetry-dynamic-versioning.substitution]
 folders = [
