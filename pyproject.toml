@@ -1,10 +1,6 @@
 [tool.poetry]
 authors = ["Niko Ehrenfeuchter <mail@he1ix.org>"]
 description = "Prometheus exporter for HomeAssistant data on Huawei SUN2000 inverters"
-include = [
-  "resources/config-example.yaml",
-  "resources/systemd/prometheus-hass-sun2k.service",
-]
 license = "MIT"
 name = "prometheus-hass-sun2k"
 readme = "README.md"
