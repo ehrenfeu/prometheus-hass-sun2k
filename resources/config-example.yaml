@@ -1,0 +1,58 @@
+listen:
+  addr: "192.168.3.4"
+  port: 9177
+
+homeassistant:
+  api_url: http://localhost:8124/api
+  token: MiOiIyYzdhNTYwN2Y5Y2U0MYxfQ.lLxnIIUzI1NiIsInR
+
+scrape_interval: 15
+metric_pfx: sun2k
+entity_pfx: sensor.inverter
+
+counters:
+- total_yield
+- daily_yield
+
+gauges:
+- input_power
+- day_active_power_peak
+- active_power
+- reactive_power
+- power_factor
+- efficiency
+- internal_temperature
+
+### sensors provided by HomeAssistant:
+# input_power
+# a_b_line_voltage
+# b_c_line_voltage
+# c_a_line_voltage
+# phase_a_voltage
+# phase_b_voltage
+# phase_c_voltage
+# phase_a_current
+# phase_b_current
+# phase_c_current
+# day_active_power_peak
+# active_power
+# reactive_power
+# power_factor
+# efficiency
+# internal_temperature
+# device_status
+# startup_time
+# shutdown_time
+# total_yield
+# daily_yield
+# inverter_state
+# locking_status
+# pv_connection_status
+# dsp_data_collection
+# off_grid_status
+# off_grid_switch
+# alarms
+# pv_1_voltage
+# pv_1_current
+# pv_2_voltage
+# pv_2_current
