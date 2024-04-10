@@ -1,0 +1,18 @@
+### systemd unit file for the HomeAssistant-SUN2K Exporter Service
+
+[Unit]
+Description=Prometheus exporter for HomeAssistant data on Huawei SUN2000 inverters
+
+
+[Service]
+ExecStart=/opt/prometheus-hass-sun2k/bin/prometheus-hass-sun2k
+Type=simple
+User=has2k-exporter
+Restart=on-failure
+### disable output buffering, messages should appear directly in systemd's logs:
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+### start the service when the system boots (assuming the service is enabled):
+WantedBy=default.target
+
