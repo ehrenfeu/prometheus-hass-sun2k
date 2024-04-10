@@ -78,11 +78,11 @@ def run_exporter(verbose, config):
     # do a first logging configuration to respect the command line parameters:
     configure_logging(verbose)
 
-    configuration = load_config_file(config)
+    config = load_config_file(config)
 
     # verbosity might have been specified in the config / environment:
-    if configuration.verbosity > verbose:
-        configure_logging(configuration.verbosity)
+    if config.verbosity > verbose:
+        configure_logging(config.verbosity)
 
     prepare_export(config)
 
