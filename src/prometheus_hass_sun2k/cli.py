@@ -63,6 +63,7 @@ def prepare_export(config):
     count=True,
     help="Increase logging verbosity, may be repeated up to 3 times.",
 )
+@click.version_option()
 def run_exporter(verbose, config):
     """Main CLI entry point for the HA-SUN2K exporter. Blocking.
 
