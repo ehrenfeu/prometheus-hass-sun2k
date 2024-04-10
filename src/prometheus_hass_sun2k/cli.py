@@ -37,7 +37,7 @@ def configure_logging(verbose: int):
 
 def prepare_export(config):
     log.debug(config)
-    start_http_server(port=config.homeassistant.port, addr=config.homeassistant.addr)
+    start_http_server(port=config.listen.port, addr=config.listen.addr)
     info = Info(
         name=f"{config.metric_pfx}_collector",
         documentation="SUN2000 inverter series metrics collector (via HomeAssistant)",
