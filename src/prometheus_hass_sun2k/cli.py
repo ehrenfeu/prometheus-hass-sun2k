@@ -110,7 +110,7 @@ def run_exporter(verbose, config):
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in counters:
                 counters[name] = new_metric(state, Counter, config)
-            counters[name]._value.set(value)
+            counters[name]._value.set(value)  # pylint: disable-msg=protected-access
 
         log.debug("Processing gauges...")
         for name in config.gauges:
