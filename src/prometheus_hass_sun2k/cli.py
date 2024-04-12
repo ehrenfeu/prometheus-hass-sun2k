@@ -106,7 +106,7 @@ def run_exporter(verbose, config):
                 state = fetch_entity_state(name, config)
                 value = float(state["state"])
                 log.info(f"{name} -> {value}")
-            except:
+            except Exception:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in counters:
                 counters[name] = new_metric(state, Counter, config)
@@ -119,7 +119,7 @@ def run_exporter(verbose, config):
                 state = fetch_entity_state(name, config)
                 value = float(state["state"])
                 log.info(f"{name} -> {value}")
-            except:
+            except Exception:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
             if name not in gauges:
                 gauges[name] = new_metric(state, Gauge, config)
