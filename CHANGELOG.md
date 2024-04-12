@@ -6,6 +6,8 @@
   float.
 * Avoid accidental catching of system exceptions.
 * Add missing function docstrings.
+* Use a dict for mapping units instead of a function.
+
 ## 0.1.0
 
 * First public release.

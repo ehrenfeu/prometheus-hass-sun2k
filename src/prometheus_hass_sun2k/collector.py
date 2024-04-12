@@ -6,21 +6,14 @@ from loguru import logger as log
 from requests import get
 
 
-def map_unit(unit):
-    if unit == "%":
-        return "ratio"
-    if unit == "°C":
-        return "celsius"
-    if unit == "V":
-        return "volts"
-    if unit == "A":
-        return "amperes"
-    if unit == "W":
-        return "watts"
-    if unit == "Hz":
-        return "hertz"
-
-    return unit
+MAP_UNIT = {
+    "%": "ratio",
+    "°C": "celsius",
+    "V": "volts",
+    "A": "amperes",
+    "W": "watts",
+    "Hz": "hertz",
+}
 
 
 def fetch_entity_state(name, config):
@@ -74,7 +67,7 @@ def new_metric(state, metric_type, config):
     name = state["entity_id"][cut:]
     attributes = state["attributes"]
     try:
-        unit = map_unit(attributes["unit_of_measurement"])
+        unit = MAP_UNIT.get(attributes["unit_of_measurement"])
     except KeyError:
         unit = ""
     docs = attributes["friendly_name"]
