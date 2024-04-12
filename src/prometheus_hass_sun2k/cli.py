@@ -104,7 +104,7 @@ def run_exporter(verbose, config):
             value = 0
             try:
                 state = fetch_entity_state(name, config)
-                value = state["state"]
+                value = float(state["state"])
                 log.info(f"{name} -> {value}")
             except:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
@@ -117,7 +117,7 @@ def run_exporter(verbose, config):
             value = 0
             try:
                 state = fetch_entity_state(name, config)
-                value = state["state"]
+                value = float(state["state"])
                 log.info(f"{name} -> {value}")
             except:
                 log.error(f"ERROR: fetching [{name}] failed, setting to -> {value}")
