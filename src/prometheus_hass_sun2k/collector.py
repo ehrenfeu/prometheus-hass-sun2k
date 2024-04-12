@@ -24,6 +24,21 @@ def map_unit(unit):
 
 
 def fetch_entity_state(name, config):
+    """Fetch the given entity's state from HomeAssistant.
+
+    Parameters
+    ----------
+    name : str
+        The HomeAssistant entity name (without prefix).
+    config : Box
+        The service configuration object, see config.load_config_file() for
+        more details.
+
+    Returns
+    -------
+    dict
+        The dict parsed from the JSON response delivered by HomeAssistant.
+    """
     url = f"{config.homeassistant.api_url}/states/{config.entity_pfx}_{name}"
     headers = {
         "Authorization": f"Bearer {config.homeassistant.token}",
@@ -36,6 +51,25 @@ def fetch_entity_state(name, config):
 
 
 def new_metric(state, metric_type, config):
+    """Create a new Prometheus metric of the given type.
+
+    Parameters
+    ----------
+    state : dict
+        The corresponding entity state for which the metric should be created,
+        as delivered by fetch_entity_state(). Used to derive the metric's name
+        and attributes.
+    metric_type : prometheus_client.Counter or prometheus_client.Gauge
+        The metric type to be created.
+    config : Box
+        The service configuration object, see config.load_config_file() for
+        more details.
+
+    Returns
+    -------
+    prometheus_client.Counter or prometheus_client.Gauge
+        The new Prometheus metric object.
+    """
     cut = len(config.entity_pfx) + 1
     name = state["entity_id"][cut:]
     attributes = state["attributes"]

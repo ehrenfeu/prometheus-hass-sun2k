@@ -4,7 +4,19 @@ from box import Box
 
 
 def load_config_file(filename):
-    """Assemble a config object by loading values from a file."""
+    """Assemble a config object by loading values from a file.
+
+    Parameters
+    ----------
+    filename : str
+        Path to the YAML configuration file to be loaded.
+
+    Returns
+    -------
+    Box
+        The parsed configuration object, possibly amended by default settings
+        that are not necessarily present in the YAML file.
+    """
     config = Box.from_yaml(filename=filename)
     if "addr" not in config.listen.keys():
         config.listen.addr = "0.0.0.0"

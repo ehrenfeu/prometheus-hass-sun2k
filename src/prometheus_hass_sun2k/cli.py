@@ -36,6 +36,14 @@ def configure_logging(verbose: int):
 
 
 def prepare_export(config):
+    """Start the exporter's HTTP server and provide basic information.
+
+    Parameters
+    ----------
+    config : Box
+        The service configuration object, see config.load_config_file() for
+        more details.
+    """
     start_http_server(port=config.listen.port, addr=config.listen.addr)
     info = Info(
         name=f"{config.metric_pfx}_collector",
